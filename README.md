@@ -21,6 +21,6 @@ Before you can run the "subscribe-publish" example, you need to provision the EC
 
 ## AWS IoT
 
-# Configure the Project
+## Configure the Project
 
-# Build and Run
+## Build and Run
