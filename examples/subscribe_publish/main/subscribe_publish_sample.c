@@ -323,8 +323,30 @@ void app_main()
     ESP_ERROR_CHECK( err );
 
     // Initialize ECC608
-    atcab_init(&cfg_ateccx08a_i2c_default);
+    int ret;
+    ESP_LOGI(TAG, "Initializing ECC608");
+    if(CONFIG_SCAN_FOR_I2C_ADDRESS)
+    {
+        ESP_LOGI(TAG, "Scanning for the correct I2C address");
+        for(int i = 0; i < 256; i++)
+        {
+            ESP_LOGI(TAG, "Scanning address %02X", i);
+            cfg_ateccx08a_i2c_default.atcai2c.slave_address = i;
+            ret = atcab_init(&cfg_ateccx08a_i2c_default);
+            if(!ret) break;
+        }
+    }
+    else
+    {
+        int default_address = cfg_ateccx08a_i2c_default.atcai2c.slave_address;
+        ESP_LOGI(TAG, "Scanning default address %02X", default_address);
+        ret = atcab_init(&cfg_ateccx08a_i2c_default);
+    }
+    assert(!ret);
 
+    // Initialize WiFi
     initialise_wifi();
+
+    // Handle AWS task
     xTaskCreatePinnedToCore(&aws_iot_task, "aws_iot_task", 9216, NULL, 5, NULL, 1);
 }
