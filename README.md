@@ -17,31 +17,10 @@ This project contains a single application for the ESP32, "subscribe-publish", w
 
 ## Provision the ATECC608A
 
-Navigate to the esp_cryptoauthlib_utility directory:
+Before you can run the "subscribe-publish" example, you need to provision the ECC608 that is attached to your ESP32 via the I2C protocol. If you have not done so already, please download the [Provision-ECC608](https://github.com/PBearson/Provision-ECC608) project, which will generate a private key in the crypto chip and provide you with a CSR. **Please make sure to save this CSR to a file.**
 
-```
-cd esp-aws-iot/examples/subscribe_publish/components/esp-cryptoauthlib/esp_cryptoauthlib_utility
-```
+## AWS IoT
 
-Generate a signer certificate and signer private key:
+# Configure the Project
 
-```
-openssl ecparam -out signerkey.pem -name prime256v1 -genkey
-openssl req -new -x509 -key signerkey.pem -out signercert.pem -days 365
-```
-
-Make sure the the signer certificate's Common Name ends in "FFFF", e.g., "My Cert FFFF".
-
-Install Python dependencies:
-
-```
-pip install -r requirements.txt
-```
-
-Now run the secure_key_mfg.py script to generate a private key inside slot 0 of ECC608 and generate a device certificate:
-
-```
-python secure_cert_mfg.py --signer-cert signercert.pem --signer-cert-private-key signerkey.pem --port <PORT>
-```
-
-The device certificate will be printed to the screen, and it will also be saved to a new "output_files/" directory.
+# Build and Run
