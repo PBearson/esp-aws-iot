@@ -10,7 +10,7 @@ This project contains a single application for the ESP32, "subscribe-publish", w
 
 - Installation instructions for ESP-IDF version release/v4.2 are here: https://docs.espressif.com/projects/esp-idf/en/release-v4.2/esp32/get-started/index.html
 
-- Please clone this repository using,
+- Please clone this repository using the following command:
     ```
     git clone --recursive https://github.com/PBearson/esp-aws-iot
     ```
@@ -20,6 +20,8 @@ This project contains a single application for the ESP32, "subscribe-publish", w
 Before you can run the "subscribe-publish" example, you need to provision the ECC608 that is attached to your ESP32 via the I2C protocol. If you have not done so already, please download the [Provision-ECC608](https://github.com/PBearson/Provision-ECC608) project, which will generate a private key in the crypto chip and provide you with a CSR. **Please make sure to save this CSR to a file.**
 
 ## AWS IoT
+
+After you have provisioned the ECC608 and saved your CSR, open your AWS IoT console. There you will upload the CSR by goin to Secure -> Certificates -> Create -> Create with CSR. AWS will sign the CSR and provide you with a valid device certificate. Download the certificate, and make sure to activate it in the console. You also need to attach a valid IoT policy to your certificate.
 
 ## Configure the Project
 
