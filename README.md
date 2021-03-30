@@ -57,3 +57,11 @@ The AWS IoT endpoint can be obtained in the AWS IoT console on the "settings" pa
 If "Scan for ATECC608A I2C" is not selected, then the application will try to use address 0xC0 by default.
 
 ## Build and Run
+
+To build and flash the app, run the following command:
+
+```
+idf.py build flash monitor
+```
+
+The ESP32 will attempt to connect to AWS IoT. If the procedure was followed correctly, then the ESP32 will use its device certificate and device private key (stroed in slot 0 of the ECC608) to authenticate to AWS IoT.
