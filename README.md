@@ -47,3 +47,5 @@ Now run the secure_key_mfg.py script to generate a private key inside slot 0 of 
 ```
 python secure_cert_mfg.py --signer-cert signercert.pem --signer-cert-private-key signerkey.pem --port <PORT>
 ```
+
+The device certificate will be printed to the screen, and it will also be saved to a new "output_files/" directory.
