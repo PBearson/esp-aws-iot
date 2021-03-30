@@ -48,6 +48,8 @@
 #include "aws_iot_version.h"
 #include "aws_iot_mqtt_client_interface.h"
 
+#include "cryptoauthlib.h"
+
 static const char *TAG = "subpub";
 
 /* The examples use simple WiFi configuration that you can set via
@@ -177,16 +179,9 @@ void aws_iot_task(void *param) {
     mqttInitParams.pHostURL = HostAddress;
     mqttInitParams.port = port;
 
-#if defined(CONFIG_EXAMPLE_EMBEDDED_CERTS)
     mqttInitParams.pRootCALocation = (const char *)aws_root_ca_pem_start;
     mqttInitParams.pDeviceCertLocation = (const char *)certificate_pem_crt_start;
-    mqttInitParams.pDevicePrivateKeyLocation = (const char *)private_pem_key_start;
-
-#elif defined(CONFIG_EXAMPLE_FILESYSTEM_CERTS)
-    mqttInitParams.pRootCALocation = ROOT_CA_PATH;
-    mqttInitParams.pDeviceCertLocation = DEVICE_CERTIFICATE_PATH;
-    mqttInitParams.pDevicePrivateKeyLocation = DEVICE_PRIVATE_KEY_PATH;
-#endif
+    mqttInitParams.pDevicePrivateKeyLocation = "#0";
 
     mqttInitParams.mqttCommandTimeout_ms = 20000;
     mqttInitParams.tlsHandshakeTimeout_ms = 5000;
@@ -326,6 +321,9 @@ void app_main()
         err = nvs_flash_init();
     }
     ESP_ERROR_CHECK( err );
+
+    // Initialize ECC608
+    atcab_init(&cfg_ateccx08a_i2c_default);
 
     initialise_wifi();
     xTaskCreatePinnedToCore(&aws_iot_task, "aws_iot_task", 9216, NULL, 5, NULL, 1);
