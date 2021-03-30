@@ -28,32 +28,7 @@ Server certificates allow devices to verify that they're communicating with AWS 
 
 ### Installing Private Key & Certificate
 
-As part of creating a device certificate, you downloaded a Private Key (`xxx-private.pem.key`) and a Certificate file (`xxx-certificate.pem.crt`). These keys need to be loaded by the ESP32 to identify itself.
-
-There are currently two options for how to load the key & cert.
-
-* Embed the files into the app binary (default)
-* Load the files from SD card
-
-### Option 1: Embedded Key & Cert into App Binary
-
-Copy the `.pem.key` and `.pem.crt` files to the `main/certs` subdirectory of the example. Rename them by removing the device-specific prefix - the new names are `private.pem.key` and `certificate.pem.crt`.
-
-As these files are bound to your AWS IoT account, take care not to accidentally commit them to public source control. In a commercial IoT device these files would be flashed to the device via a provisioning step, but for these examples they are compiled in.
-
-### Option 2: Loading Key & Cert from SD Card
-
-The alternative to embedding the key and certificate is to load them from a FAT filesystem on an SD card.
-
-Before loading data from SD, format your SD card as FAT and run the `examples/storage/sd_card` example on it to verify that it's working as expected in ESP-IDF. This helps cut down the possible causes of errors in the more complex AWS IoT examples!
-
-Run `make menuconfig`, navigate to "Example Configuration" and change "AWS IoT Certificate Source" to "Load from SD card".
-
-Three new prompts will appear for filenames for the device key, device certificate and root CA certificate path. These paths start with `/sdcard/` as this is where the example mounts the (FAT formatted) SD card.
-
-Copy the certificate and key files to the SD card, and make sure the file names match the names given in the example configuration (either rename the files, or change the config). For the Root CA certificate file (which is not device-specific), you can find the file in the `main/certs` directory or download it from AWS.
-
-*Note: By default, esp-idf's FATFS support only allows 8.3 character filenames. However, the AWS IoT examples pre-configure the sdkconfig to enable long filenames. If you're setting up your projects, you will probably want to enable these options as well (under Component Config -> FAT Filesystem Support). You can also consider configure the FAT filesystem for read-only support, if you don't need to write to the SD card.*
+Please follow the instructions in the root directory for installing the device certificate. The device private key resides in the ECC608, and you do not need to install it.
 
 ## Find & Set AWS Endpoint Hostname
 
