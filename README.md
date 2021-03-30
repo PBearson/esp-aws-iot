@@ -21,7 +21,9 @@ Before you can run the "subscribe-publish" example, you need to provision the EC
 
 ## AWS IoT
 
-After you have provisioned the ECC608 and saved your CSR, open your AWS IoT console. There you will upload the CSR by goin to Secure -> Certificates -> Create -> Create with CSR. AWS will sign the CSR and provide you with a valid device certificate. Download the certificate, and make sure to activate it in the console. You also need to attach a valid IoT policy to your certificate.
+After you have provisioned the ECC608 and saved your CSR, open your AWS IoT console. There you will upload the CSR by goin to Secure -> Certificates -> Create -> Create with CSR. AWS will sign the CSR and provide you with a valid device certificate. Download the certificate, and make sure to activate it in the console. You also need to attach a valid IoT policy to your certificate. A sample policy is shown below, which grants full IoT access to authorized devices:
+
+![IoT Policy](iot-policy.JPG)
 
 ## Configure the Project
 
