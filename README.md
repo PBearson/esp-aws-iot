@@ -33,7 +33,7 @@ Navigate to the "subscribe-publish" directory:
 cd esp-aws-iot/examples/subscribe_publish
 ```
 
-Place the downloaded device certificate to the "main/certs" directory. Rename the certificate to "certificate.pem.crt".
+Place the downloaded device certificate to the "main/certs" directory. Rename the certificate file to "certificate.pem.crt".
 
 Now open the menu config with the following command:
 
@@ -43,6 +43,17 @@ idf.py menuconfig
 You must configure the following settings to successfully connect your device to AWS IoT:
 - Example Configuration -> WiFi SSID
 - Example Configuration -> WiFi Password
-- Component config -> esp-cryptoauthlib -> 
+- Component config -> esp-cryptoauthlib -> Enable Hardware ECDSA keys for mbedTLS
+- Component config -> esp-cryptoauthlib -> Enable ATECC608A sign operations in mbedTLS
+- Component config -> esp-cryptoauthlib -> Enable ATECC608A verify operations in mbedTLS
+- Component config -> esp-cryptoauthlib -> I2C SDA pin used to communicate with the ATECC608A
+- Component config -> esp-cryptoauthlib -> I2C SCL pin used to communicate with the ATECC608A
+- (OPTIONAL) Component config -> esp-cryptoauthlib -> Scan for ATECC608A I2C
+- Component config -> Amazon Web Services IoT Platform -> AWS IoT Endpoint Hostname
+- Component config -> Amazon Web Services IoT Platform -> Enable the hardware secure element for authenticating TLS connections
+
+The AWS IoT endpoint can be obtained in the AWS IoT console on the "settings" page.
+
+If "Scan for ATECC608A I2C" is not selected, then the application will try to use address 0xC0 by default.
 
 ## Build and Run
