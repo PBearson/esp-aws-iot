@@ -27,4 +27,22 @@ After you have provisioned the ECC608 and saved your CSR to a file, open your AW
 
 ## Configure the Project
 
+Navigate to the "subscribe-publish" directory:
+
+```
+cd esp-aws-iot/examples/subscribe_publish
+```
+
+Place the downloaded device certificate to the "main/certs" directory. Rename the certificate to "certificate.pem.crt".
+
+Now open the menu config with the following command:
+
+```
+idf.py menuconfig
+```
+You must configure the following settings to successfully connect your device to AWS IoT:
+- Example Configuration -> WiFi SSID
+- Example Configuration -> WiFi Password
+- Component config -> esp-cryptoauthlib -> 
+
 ## Build and Run
