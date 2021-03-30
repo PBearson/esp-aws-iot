@@ -1,12 +1,13 @@
 # ESP-AWS-IoT
 
-This framework enables AWS IoT cloud connectivity with ESP32 based platforms using [AWS IoT Device Embedded SDK](https://github.com/aws/aws-iot-device-sdk-embedded-C).
+This project is a fork of esp-aws-iot from Espressif, and it contain several modifications including support of ESP-IDF versions release/v4.2 and release/v4.3. Please make sure you have installed one of those versions. Installation instructions are here: https://docs.espressif.com/projects/esp-idf/en/release-v4.2/esp32/get-started/index.html
+
 
 ## Getting Started
 
 - Please clone this repository using,
     ```
-    git clone --recursive https://github.com/espressif/esp-aws-iot
+    git clone --recursive https://github.com/PBearson/esp-aws-iot
     ```
 - Please refer to https://docs.espressif.com/projects/esp-idf/en/latest/get-started/index.html for setting ESP-IDF
   - ESP-IDF can be downloaded from https://github.com/espressif/esp-idf/
