@@ -64,7 +64,7 @@ To build and flash the app, run the following command:
 idf.py build flash monitor
 ```
 
-The ESP32 will attempt to connect to AWS IoT. If the procedure was followed correctly, then the ESP32 will use its device certificate and device private key (stroed in slot 0 of the ECC608) to authenticate to AWS IoT.
+The ESP32 will attempt to connect to AWS IoT. If the procedure was followed correctly, then the ESP32 will use its device certificate and device private key (stored in slot 0 of the ECC608) to authenticate to AWS IoT.
 
 Observe the console output carefully, as it can give important information regarding any errors that occur. The output gives indication whether the ECC608 was initialized successfully, as shown below:
 
