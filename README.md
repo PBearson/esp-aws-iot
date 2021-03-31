@@ -6,6 +6,14 @@ This project is a fork of esp-aws-iot from Espressif, and it contain several mod
 
 This project contains a single application for the ESP32, "subscribe-publish", which can be found in the "examples" directory. This example will connect to AWS IoT, authenticate using a private key stored in the ATECC608A, and communicate using MQTT.
 
+## Changes from espressif/esp-aws-iot
+
+This project makes the following changes to [espressif/esp-aws-iot](https://github.com/espressif/esp-aws-iot):
+
+- The "subscribe-publish" example now supports ATECC608A by default. Several changes were made to `examples/subscribe_publish/main/subscribe_publish_sample.c` including a new `initialize_ecc608()` function, and minor changes to `aws_iot_task()` for using the device private key stored in the ECC608.
+- The `esp-cryptoauthlib` component was updated to support scanning of the I2C address (in case the user does not know it).
+- The default I2C pins were changed to 27 (SDA) and 33 (SCL).
+
 ## Getting Started
 
 - Installation instructions for ESP-IDF version release/v4.2 are here: https://docs.espressif.com/projects/esp-idf/en/release-v4.2/esp32/get-started/index.html
