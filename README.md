@@ -66,6 +66,10 @@ idf.py build flash monitor
 
 The ESP32 will attempt to connect to AWS IoT. If the procedure was followed correctly, then the ESP32 will use its device certificate and device private key (stroed in slot 0 of the ECC608) to authenticate to AWS IoT.
 
-Observe the output carefully, as it can give important information regarding any errors that occur. If the ESP32 succeeded in initializing the ECC608, you will see the following output:
+Observe the console output carefully, as it can give important information regarding any errors that occur. The output gives indication whether the ECC608 was initializes successfully, as shown below:
 
 ![ECC608 initialized](ecc608-initialized-successfully.JPG)
+
+Moreover, if the authentication was successful, the output will indicate that the device has subscribed to an MQTT topic and will periodically publish a message to the topic "test_topic/esp32":
+
+![Connect and subscribe success](connect-and-subscribe-success.JPG)
