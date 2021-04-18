@@ -42,7 +42,7 @@ Navigate to the "subscribe-publish" directory:
 cd esp-aws-iot/examples/subscribe_publish
 ```
 
-Place the downloaded device certificate and private key to the "main/certs" directory. Rename the certificate file to "certificate.pem.crt" and private key file to "private.pem.key".
+Place the downloaded device certificate to the "main/certs" directory. Rename the certificate file to "certificate.pem.crt".
 
 Now open the menu config with the following command:
 
