@@ -52,7 +52,6 @@ idf.py menuconfig
 You must configure the following settings to successfully connect your device to AWS IoT:
 - Example Configuration -> WiFi SSID
 - Example Configuration -> WiFi Password
-- AWS IoT Endpoint Hostname
 - Component config -> esp-cryptoauthlib -> Enable Hardware ECDSA keys for mbedTLS
 - Component config -> esp-cryptoauthlib -> Enable ATECC608A sign operations in mbedTLS
 - Component config -> esp-cryptoauthlib -> Enable ATECC608A verify operations in mbedTLS
@@ -60,7 +59,7 @@ You must configure the following settings to successfully connect your device to
 - Component config -> esp-cryptoauthlib -> I2C SCL pin used to communicate with the ATECC608A
 - (OPTIONAL) Component config -> esp-cryptoauthlib -> Scan for ATECC608A I2C
 - Component config -> Amazon Web Services IoT Platform -> AWS IoT Endpoint Hostname
-- Component config -> Amazon Web Services IoT Platform -> Enable the hardware secure element for authenticating TLS connections
+- Component config -> Amazon Web Services IoT Platform -> Use the hardware secure element for authenticating TLS connections
 
 The AWS IoT endpoint can be obtained in the AWS IoT console on the "settings" page.
 
