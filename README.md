@@ -32,7 +32,7 @@ Before you can run the "subscribe-publish" example, you need to provision the EC
 
 After you have provisioned the ECC608 and saved your CSR to a file, open your AWS IoT console. There you will upload the CSR by going to Secure -> Certificates -> Create -> Create with CSR. AWS will sign the CSR and provide you with a valid device certificate. Download the certificate, and make sure to activate it in the console. You also need to attach a valid IoT policy to your certificate. A sample policy is shown below, which grants full IoT access to authorized devices:
 
-![IoT Policy](iot-policy.JPG)
+![IoT Policy](Images/iot-policy.JPG)
 
 ## Configure the Project
 
@@ -77,8 +77,8 @@ The ESP32 will attempt to connect to AWS IoT. If the procedure was followed corr
 
 Observe the console output carefully, as it can give important information regarding any errors that occur. The output gives indication whether the ECC608 was initialized successfully, as shown below:
 
-![ECC608 initialized](ecc608-initialized-successfully.JPG)
+![ECC608 initialized](Images/ecc608-initialized-successfully.JPG)
 
 Moreover, if the authentication was successful, the output will indicate that the device has subscribed to an MQTT topic and will periodically publish a message to the topic "test_topic/esp32":
 
-![Connect and subscribe success](connect-and-subscribe-success.JPG)
+![Connect and subscribe success](Images/connect-and-subscribe-success.JPG)

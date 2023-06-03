@@ -1,5 +1,5 @@
 [submodule "aws-iot-device-sdk-embedded-C"]
-	path = aws-iot-device-sdk-embedded-C
+	path = components/aws-iot-device-sdk-embedded-C
 	url = https://github.com/espressif/aws-iot-device-sdk-embedded-C.git
 [submodule "examples/subscribe_publish/components/esp-cryptoauthlib"]
 	path = examples/subscribe_publish/components/esp-cryptoauthlib
