@@ -1,6 +1,6 @@
 [submodule "aws-iot-device-sdk-embedded-C"]
 	path = components/aws-iot-device-sdk-embedded-C
 	url = https://github.com/espressif/aws-iot-device-sdk-embedded-C.git
-[submodule "examples/subscribe_publish/components/esp-cryptoauthlib"]
+[submodule "matt-change"]
 	path = examples/subscribe_publish/components/esp-cryptoauthlib
-	url = https://github.com/PBearson/esp-cryptoauthlib.git
+	url = https://github.com/DaintyJet/esp-cryptoauthlib.git
