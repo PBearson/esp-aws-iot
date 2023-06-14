@@ -8,3 +8,6 @@
 	path = examples/subscribe_publish/components/esp-aws-iot
 	url = https://github.com/espressif/esp-aws-iot.git
 	branch = release/v3.1.x
+[submodule "v5c1"]
+	path = examples/subscribe_publish/components/esp-cryptoauthlib
+	url = https://github.com/DaintyJet/esp-cryptoauthlib.git
