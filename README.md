@@ -23,6 +23,7 @@ This project makes the following changes to [espressif/esp-aws-iot](https://gith
     ```sh
     git clone --recursive https://github.com/PBearson/esp-aws-iot
     ```
+    **Note**: By default, this project is already located in the ``` ~/esp/IoT-Examples/ ``` directory of the Ubuntu VM.
 
 ## Provision the ATECC608A
 
@@ -67,16 +68,13 @@ If "Scan for ATECC608A I2C" is not selected, then the application will try to us
 
 ## Build and Run
 1. Before building the command ensure the necessary components are included, run the following command!
- 
-```sh
-    idf.py add-dependency "espressif/jsmn^1.1.0" 
-```
-
-1. To build, flash and monitor the serial output of the app, run the following command:
-
-```sh
-    idf.py build flash monitor
-```
+    ```sh
+        idf.py add-dependency "espressif/jsmn^1.1.0" 
+    ```
+2. To build, flash and monitor the serial output of the app, run the following command:
+    ```sh
+        idf.py build flash monitor
+    ```
 
 The ESP32 will attempt to connect to AWS IoT. If the procedure was followed correctly, then the ESP32 will use its device certificate and device private key (stored in slot 0 of the ECC608) to authenticate to AWS IoT.
 
