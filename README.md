@@ -20,7 +20,7 @@ This project makes the following changes to [espressif/esp-aws-iot](https://gith
 - Installation instructions for ESP-IDF version release/v4.2 are here: https://docs.espressif.com/projects/esp-idf/en/release-v4.2/esp32/get-started/index.html
 
 - Please clone this repository using the following command:
-    ```
+    ```sh
     git clone --recursive https://github.com/PBearson/esp-aws-iot
     ```
 
@@ -38,16 +38,16 @@ After you have provisioned the ECC608 and saved your CSR to a file, open your AW
 
 Navigate to the "subscribe-publish" directory:
 
-```
-cd esp-aws-iot/examples/subscribe_publish
+```sh
+    cd esp-aws-iot/examples/subscribe_publish
 ```
 
 Place the downloaded device certificate to the "main/certs" directory. Rename the certificate file to "certificate.pem.crt".
 
 Now open the menu config with the following command:
 
-```
-idf.py menuconfig
+```sh
+    idf.py menuconfig
 ```
 You must configure the following settings to successfully connect your device to AWS IoT:
 - Example Configuration -> WiFi SSID
@@ -66,11 +66,16 @@ The AWS IoT endpoint can be obtained in the AWS IoT console on the "settings" pa
 If "Scan for ATECC608A I2C" is not selected, then the application will try to use address 0xC0 by default.
 
 ## Build and Run
-
-To build and flash the app, run the following command:
-
+1. Before building the command ensure the necessary components are included, run the following command!
+ 
+```sh
+    idf.py add-dependency "espressif/jsmn^1.1.0" 
 ```
-idf.py build flash monitor
+
+1. To build, flash and monitor the serial output of the app, run the following command:
+
+```sh
+    idf.py build flash monitor
 ```
 
 The ESP32 will attempt to connect to AWS IoT. If the procedure was followed correctly, then the ESP32 will use its device certificate and device private key (stored in slot 0 of the ECC608) to authenticate to AWS IoT.
