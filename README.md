@@ -56,14 +56,14 @@ After you have provisioned the ECC608 and saved your CSR to a file, open your AW
     - Component config -> esp-cryptoauthlib -> Enable ATECC608A verify operations in mbedTLS
     - Component config -> esp-cryptoauthlib -> I2C SDA pin used to communicate with the ATECC608A
     - Component config -> esp-cryptoauthlib -> I2C SCL pin used to communicate with the ATECC608A
-    - (OPTIONAL) Component config -> esp-cryptoauthlib -> Scan for ATECC608A I2C
+    - Component config -> esp-cryptoauthlib -> Set I2C to 0xC0
+       - (OPTIONAL) Component config -> esp-cryptoauthlib -> Scan for ATECC608A I2C
     - Component config -> Amazon Web Services IoT Platform -> AWS IoT Endpoint Hostname
     - Component config -> Amazon Web Services IoT Platform -> Use the hardware secure element for authenticating TLS connections
+      - The AWS IoT endpoint can be obtained in the AWS IoT console on the "settings" page.
 
-    The AWS IoT endpoint can be obtained in the AWS IoT console on the "settings" page.
-
-    If "Scan for ATECC608A I2C" is not selected, then the application will try to use address 0xC0 by default.
-3. Install the jsmn component using the following command.
+    If the "Scan for ATECC608A I2C" option is not selected, then the application will try to use address 0xC0, 0x6C, or 0x6A by default depending on the chip selected.
+4. Install the jsmn component using the following command.
 ```
  idf.py add-dependency "espressif/jsmn^1.1.0"
 ```
