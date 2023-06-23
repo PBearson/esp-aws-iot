@@ -35,7 +35,7 @@
 #include "freertos/event_groups.h"
 #include "esp_system.h"
 #include "esp_wifi.h"
-#include "esp_event_loop.h"
+#include "esp_event.h"
 #include "esp_log.h"
 #include "esp_vfs_fat.h"
 #include "driver/sdmmc_host.h"
@@ -49,6 +49,11 @@
 #include "aws_iot_mqtt_client_interface.h"
 
 #include "cryptoauthlib.h"
+#include <esp_idf_version.h>
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 1, 0)
+// Features supported in 4.1+
+#define ESP_NETIF_SUPPORTED
+#endif
 
 static const char *TAG = "subpub";
 
@@ -87,8 +92,6 @@ extern const uint8_t aws_root_ca_pem_start[] asm("_binary_aws_root_ca_pem_start"
 extern const uint8_t aws_root_ca_pem_end[] asm("_binary_aws_root_ca_pem_end");
 extern const uint8_t certificate_pem_crt_start[] asm("_binary_certificate_pem_crt_start");
 extern const uint8_t certificate_pem_crt_end[] asm("_binary_certificate_pem_crt_end");
-extern const uint8_t private_pem_key_start[] asm("_binary_private_pem_key_start");
-extern const uint8_t private_pem_key_end[] asm("_binary_private_pem_key_end");
 
 #elif defined(CONFIG_EXAMPLE_FILESYSTEM_CERTS)
 
@@ -110,26 +113,21 @@ char HostAddress[255] = AWS_IOT_MQTT_HOST;
  */
 uint32_t port = AWS_IOT_MQTT_PORT;
 
-
-static esp_err_t event_handler(void *ctx, system_event_t *event)
+static void event_handler(void* arg, esp_event_base_t event_base,
+                          int32_t event_id, void* event_data)
 {
-    switch(event->event_id) {
-    case SYSTEM_EVENT_STA_START:
+    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
         esp_wifi_connect();
-        break;
-    case SYSTEM_EVENT_STA_GOT_IP:
+    } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
+        ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
+        ESP_LOGI(TAG, "Connected with IP Address:" IPSTR, IP2STR(&event->ip_info.ip));
+        /* Signal main application to continue execution */
         xEventGroupSetBits(wifi_event_group, CONNECTED_BIT);
-        break;
-    case SYSTEM_EVENT_STA_DISCONNECTED:
-        /* This is a workaround as ESP32 WiFi libs don't currently
-           auto-reassociate. */
+    } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
+        ESP_LOGI(TAG, "Disconnected. Connecting to the AP again...");
         esp_wifi_connect();
         xEventGroupClearBits(wifi_event_group, CONNECTED_BIT);
-        break;
-    default:
-        break;
     }
-    return ESP_OK;
 }
 
 void iot_subscribe_callback_handler(AWS_IoT_Client *pClient, char *topicName, uint16_t topicNameLen,
@@ -162,7 +160,7 @@ void disconnectCallbackHandler(AWS_IoT_Client *pClient, void *data) {
 void aws_iot_task(void *param) {
     char cPayload[100];
 
-    int32_t i = 0;
+    int i = 0;
 
     IoT_Error_t rc = FAILURE;
 
@@ -179,9 +177,16 @@ void aws_iot_task(void *param) {
     mqttInitParams.pHostURL = HostAddress;
     mqttInitParams.port = port;
 
+#if defined(CONFIG_EXAMPLE_EMBEDDED_CERTS)
     mqttInitParams.pRootCALocation = (const char *)aws_root_ca_pem_start;
     mqttInitParams.pDeviceCertLocation = (const char *)certificate_pem_crt_start;
     mqttInitParams.pDevicePrivateKeyLocation = "#0";
+
+#elif defined(CONFIG_EXAMPLE_FILESYSTEM_CERTS)
+    mqttInitParams.pRootCALocation = ROOT_CA_PATH;
+    mqttInitParams.pDeviceCertLocation = DEVICE_CERTIFICATE_PATH;
+    mqttInitParams.pDevicePrivateKeyLocation = DEVICE_PRIVATE_KEY_PATH;
+#endif
 
     mqttInitParams.mqttCommandTimeout_ms = 20000;
     mqttInitParams.tlsHandshakeTimeout_ms = 5000;
@@ -228,7 +233,7 @@ void aws_iot_task(void *param) {
         rc = aws_iot_mqtt_connect(&client, &connectParams);
         if(SUCCESS != rc) {
             ESP_LOGE(TAG, "Error(%d) connecting to %s:%d", rc, mqttInitParams.pHostURL, mqttInitParams.port);
-            vTaskDelay(1000 / portTICK_RATE_MS);
+            vTaskDelay(1000 / portTICK_PERIOD_MS);
         }
     } while(SUCCESS != rc);
 
@@ -272,8 +277,8 @@ void aws_iot_task(void *param) {
             continue;
         }
 
-        ESP_LOGI(TAG, "Stack remaining for task '%s' is %d bytes", pcTaskGetTaskName(NULL), uxTaskGetStackHighWaterMark(NULL));
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        ESP_LOGI(TAG, "Stack remaining for task '%s' is %d bytes", pcTaskGetName(NULL), uxTaskGetStackHighWaterMark(NULL));
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         sprintf(cPayload, "%s : %d ", "hello from ESP32 (QOS0)", i++);
         paramsQOS0.payloadLen = strlen(cPayload);
         rc = aws_iot_mqtt_publish(&client, TOPIC, TOPIC_LEN, &paramsQOS0);
@@ -293,9 +298,21 @@ void aws_iot_task(void *param) {
 
 static void initialise_wifi(void)
 {
+    /* Initialize TCP/IP */
+#ifdef ESP_NETIF_SUPPORTED
+    esp_netif_init();
+#else
     tcpip_adapter_init();
+#endif
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &event_handler, NULL));
+    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &event_handler, NULL));
+    /* Initialize Wi-Fi including netif with default config */
+#ifdef ESP_NETIF_SUPPORTED
+    esp_netif_create_default_wifi_sta();
+#endif
+
     wifi_event_group = xEventGroupCreate();
-    ESP_ERROR_CHECK( esp_event_loop_init(event_handler, NULL) );
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK( esp_wifi_init(&cfg) );
     ESP_ERROR_CHECK( esp_wifi_set_storage(WIFI_STORAGE_RAM) );
@@ -330,7 +347,7 @@ void initialize_ecc608()
 
     #else
 
-    int default_address = cfg_ateccx08a_i2c_default.atcai2c.slave_address;
+    int default_address = cfg_ateccx08a_i2c_default.atcai2c.address;
     ESP_LOGI(TAG, "Scanning default address %02X", default_address);
     ret = atcab_init(&cfg_ateccx08a_i2c_default);
 

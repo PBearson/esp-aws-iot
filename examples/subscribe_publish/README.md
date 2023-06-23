@@ -31,6 +31,8 @@ To publish data back to the device:
 * Enter a message in the payload field
 * Click Publish
 
-# Important Note
+# Important Notes
 
-This example has dependency on `esp-aws-iot` component which is added through `EXTRA_COMPONENT_DIRS` in its `Makefile` or `CMakeLists.txt` (using relative path). Hence if example is moved outside of this repository then this dependency can be resolved by copying `esp_aws_iot` under `components` subdirectory of the example project.
+We use the local component directory for the project at ``` examples\subscribe_publish\components ``` to store a slightly modified *esp-aws-iot* component. The only modification made is the additional requirement that *esp-cryptoauth* be compiled before *esp-aws-iot*. 
+
+Additionally the *esp-cryptoauth* library has been modified to 1. work with esp-idf 5.x and 2. work with the crypto-coprocessor on the device.
