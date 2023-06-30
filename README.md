@@ -1,6 +1,7 @@
 # ESP32 AWS IoT with ATECC608A
 
-This project is a fork of esp-aws-iot from Espressif, and it contain several modifications including support of ESP-IDF versions release/v4.2 and release/v4.3. Also, there is native support for ATECC608A TrustCustom, while other chip types (Trust&Go, TrustFlex) are not currently supported.
+This project is a fork of esp-aws-iot from Espressif, and it contain several modifications including support of ESP-IDF versions release/v5.1. Also, there is native support for ATECC608A TrustCustom, Trust & GO, and TrustFlex
+chips in the original esp-cryptoauth library.
 
 ## About This Project
 
