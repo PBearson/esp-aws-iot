@@ -4,13 +4,13 @@ This project is a fork of esp-aws-iot from Espressif, and it contain several mod
 
 ## About This Project
 
-This project contains a single application for the ESP32, "subscribe-publish", which can be found in the "examples" directory. This example will connect to AWS IoT, authenticate using a private key stored in the ATECC608A, and communicate using MQTT.
+This project contains a single application for the ESP32, "subscribe-publish", which can be found in the "subscribe_publish" directory. This example will connect to AWS IoT, authenticate using a private key stored in the ATECC608A, and communicate using MQTT.
 
 ## Changes from espressif/esp-aws-iot
 
 This project makes the following changes to [espressif/esp-aws-iot](https://github.com/espressif/esp-aws-iot):
 
-- The "subscribe-publish" example now supports ATECC608A by default. Several changes were made to `examples/subscribe_publish/main/subscribe_publish_sample.c` including a new `initialize_ecc608()` function, and minor changes to `aws_iot_task()` for using the device private key stored in the ECC608.
+- The "subscribe-publish" example now supports ATECC608A by default. Several changes were made to `subscribe_publish/main/subscribe_publish_sample.c` including a new `initialize_ecc608()` function, and minor changes to `aws_iot_task()` for using the device private key stored in the ECC608.
 - The `esp-cryptoauthlib` component was updated to support scanning of the I2C address (in case the user does not know it).
 - The default I2C pins were changed to 27 (SDA) and 33 (SCL).
 - The "thing_shadow" example was removed, although it may be added back later.
@@ -39,7 +39,7 @@ After you have provisioned the ECC608 and saved your CSR to a file, open your AW
 
 1. Navigate to the "subscribe-publish" directory:
     ```sh
-        cd esp-aws-iot/examples/subscribe_publish
+        cd esp-aws-iot/subscribe_publish
     ```
 2. Place the downloaded device certificate to the "main/certs" directory. Rename the certificate file to "certificate.pem.crt".
 
