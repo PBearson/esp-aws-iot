@@ -5,8 +5,8 @@ This project is a fork of esp-aws-iot from Espressif, and it contain several mod
 ## About This Project
 
 This project contains a single application for the ESP32, "subscribe-publish", which can be found in the "subscribe_publish" directory. This example will connect to AWS IoT, authenticate using a private key stored in the ATECC608A, and communicate using MQTT.
-
-## Changes from espressif/esp-aws-iot (Optional)
+<!-- We do not need the (OPTIONAL) as this is a not on changes made to the example provided from the original in the esp-aws-iot example -->
+## Changes from espressif/esp-aws-iot
 
 This project makes the following changes to [espressif/esp-aws-iot](https://github.com/espressif/esp-aws-iot):
 
