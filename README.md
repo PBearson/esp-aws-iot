@@ -18,7 +18,7 @@ This project makes the following changes to [espressif/esp-aws-iot](https://gith
 
 ## Getting Started (Optional)
 
-- Installation instructions for ESP-IDF version release/v4.2 are here: https://docs.espressif.com/projects/esp-idf/en/release-v4.2/esp32/get-started/index.html
+- Installation instructions for ESP-IDF version release/v5.1 are here: On the [Official Documentation](https://docs.espressif.com/projects/esp-idf/en/v5.1/esp32/get-started/index.html#installation), and [Github Page](https://github.com/espressif/esp-idf/tree/release/v5.1)
 
 - Please clone this repository using the following command:
     ```sh
