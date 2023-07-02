@@ -30,7 +30,7 @@ Server certificates allow devices to verify that they're communicating with AWS 
 
 Please follow the instructions in the root directory for installing the device certificate. The device private key resides in the ECC608, and you do not need to install it.
 
-## Find & Set AWS Endpoint Hostname
+### Find & Set AWS Endpoint Hostname
 
 Your AWS IoT account has a unique endpoint hostname to connect to. To find it, open the AWS IoT Console and click the "Settings" button on the bottom left side. The endpoint hostname is shown under the "Custom Endpoint" heading on this page.
 
@@ -58,10 +58,37 @@ openssl s_client -showcerts -connect hostname:8883 < /dev/null
 
 (Replace hostname with your AWS MQTT endpoint host.) The Root CA certificate is the last certificate in the list of certificates printed. You can copy-paste this in place of the existing `aws-root-ca.pem` file.
 
+## Monitoring MQTT Data from the device
 
-# Troubleshooting
+After flashing the example to your ESP32, it should connect to Amazon and start subscribing/publishing MQTT data.
 
-## Tips
+The example code publishes MQTT data to the topic `test_topic/esp32`. Amazon provides a web interface to subscribe to MQTT topics for testing in the *AWS-IoT Core*:
+
+* On the AWS IoT Core console, click " MQTT Test Client" in the menu on the left.
+* Click "Subscribe to Topic"
+* Enter "Subscription Topic" `test_topic/esp32`
+* Click "Subscribe"
+
+... you should see MQTT data published from the running example.
+**Note**: This is not in the standard JSON format the AWS-IoT Core expects, so it may provide a warning message. This is expected and fine in this case.
+
+To publish data back to the device:
+
+* Click "Publish to Topic"
+* Enter "Publish Topic" `test_topic/esp32`
+* Enter a message in the payload field
+* Click Publish
+
+
+## Important Notes
+
+We use the local component directory for the project at ```subscribe_publish\components ``` to store a slightly modified *esp-aws-iot* component. The only modification made is the additional requirement that *esp-cryptoauth* be compiled before *esp-aws-iot*. 
+
+Additionally the *esp-cryptoauth* library has been modified to 1. work with esp-idf 5.x and 2. work with the crypto-coprocessor on the device.
+
+## Troubleshooting
+
+### Tips
 
 * Raise the ESP debug log level to Debug in order to see messages about the connection to AWS, certificate contents, etc.
 
@@ -74,7 +101,7 @@ openssl s_client -showcerts -connect hostname:8883 < /dev/null
   - Policy is attached to the Certificate in AWS IoT Console.
   - Policy contains sufficient permissions to authorize AWS IoT connection.
 
-## TLS connection fails
+### TLS connection fails
 
 If connecting fails entirely (handshake doesn't complete), this usually indicates a problem with certification configuration. The error usually looks like this:
 
@@ -92,7 +119,7 @@ Verify the Certificate is activated (when viewing the Certificate, it will say "
 
 If the Certificate appears correct and activated, verify that you are connecting to the correct AWS IoT endpoint (see above.)
 
-## TLS connection closes immediately
+### TLS connection closes immediately
 
 Sometimes connecting is successful (the handshake completes) but as soon as the client sends its `MQTT CONNECT` message the server sends back a TLS alert and closes the connection, without anything else happening.
 

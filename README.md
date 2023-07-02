@@ -1,23 +1,24 @@
 # ESP32 AWS IoT with ATECC608A
 
-This project is a fork of esp-aws-iot from Espressif, and it contain several modifications including support of ESP-IDF versions release/v4.2 and release/v4.3. Also, there is native support for ATECC608A TrustCustom, while other chip types (Trust&Go, TrustFlex) are not currently supported.
+This project is a fork of esp-aws-iot from Espressif, and it contain several modifications including support of ESP-IDF versions release/v5.1. Also, there is native support for ATECC608A TrustCustom, Trust & GO, and TrustFlex
+chips in the original esp-cryptoauth library.
 
 ## About This Project
 
-This project contains a single application for the ESP32, "subscribe-publish", which can be found in the "examples" directory. This example will connect to AWS IoT, authenticate using a private key stored in the ATECC608A, and communicate using MQTT.
-
-## Changes from espressif/esp-aws-iot (Optional)
+This project contains a single application for the ESP32, "subscribe-publish", which can be found in the "subscribe_publish" directory. This example will connect to AWS IoT, authenticate using a private key stored in the ATECC608A, and communicate using MQTT.
+<!-- We do not need the (OPTIONAL) as this is a not on changes made to the example provided from the original in the esp-aws-iot example -->
+## Changes from espressif/esp-aws-iot
 
 This project makes the following changes to [espressif/esp-aws-iot](https://github.com/espressif/esp-aws-iot):
 
-- The "subscribe-publish" example now supports ATECC608A by default. Several changes were made to `examples/subscribe_publish/main/subscribe_publish_sample.c` including a new `initialize_ecc608()` function, and minor changes to `aws_iot_task()` for using the device private key stored in the ECC608.
+- The "subscribe-publish" example now supports ATECC608A by default. Several changes were made to `subscribe_publish/main/subscribe_publish_sample.c` including a new `initialize_ecc608()` function, and minor changes to `aws_iot_task()` for using the device private key stored in the ECC608.
 - The `esp-cryptoauthlib` component was updated to support scanning of the I2C address (in case the user does not know it).
 - The default I2C pins were changed to 27 (SDA) and 33 (SCL).
 - The "thing_shadow" example was removed, although it may be added back later.
 
 ## Getting Started (Optional)
 
-- Installation instructions for ESP-IDF version release/v4.2 are here: https://docs.espressif.com/projects/esp-idf/en/release-v4.2/esp32/get-started/index.html
+- Installation instructions for ESP-IDF version release/v5.1 are here: On the [Official Documentation](https://docs.espressif.com/projects/esp-idf/en/v5.1/esp32/get-started/index.html#installation), and [Github Page](https://github.com/espressif/esp-idf/tree/release/v5.1)
 
 - Please clone this repository using the following command:
     ```sh
@@ -39,7 +40,7 @@ After you have provisioned the ECC608 and saved your CSR to a file, open your AW
 
 1. Navigate to the "subscribe-publish" directory:
     ```sh
-        cd esp-aws-iot/examples/subscribe_publish
+        cd esp-aws-iot/subscribe_publish
     ```
 2. Place the downloaded device certificate to the "main/certs" directory. Rename the certificate file to "certificate.pem.crt".
 

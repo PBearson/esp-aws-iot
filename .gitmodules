@@ -1,13 +1,11 @@
 [submodule "aws-iot-device-sdk-embedded-C"]
 	path = components/aws-iot-device-sdk-embedded-C
 	url = https://github.com/espressif/aws-iot-device-sdk-embedded-C.git
-[submodule "matt-change"]
-	path = examples/subscribe_publish/components/esp-cryptoauthlib
 	url = https://github.com/DaintyJet/esp-cryptoauthlib.git
 [submodule "examples/subscribe_publish/components/esp-aws-iot"]
-	path = examples/subscribe_publish/components/esp-aws-iot
+	path = subscribe_publish/components/esp-aws-iot
 	url = https://github.com/espressif/esp-aws-iot.git
 	branch = release/v3.1.x
-[submodule "v5c1"]
-	path = examples/subscribe_publish/components/esp-cryptoauthlib
+[submodule "subscribe_publish/components/esp-cryptoauthlib"]
+	path = subscribe_publish/components/esp-cryptoauthlib
 	url = https://github.com/DaintyJet/esp-cryptoauthlib.git
